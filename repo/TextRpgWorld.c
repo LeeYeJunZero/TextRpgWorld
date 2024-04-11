@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
+#include <Windows.h>
 #define MAX_MONSTERS 4
 #define MAX_PLAYER_LEVEL 10
 
-// ¸ó½ºÅÍ ±¸Á¶Ã¼
+// ëª¬ìŠ¤í„° êµ¬ì¡°ì²´
 typedef struct {
     char* name;
     int max_health;
@@ -14,7 +14,9 @@ typedef struct {
     int experience;
 } Monster;
 
-// ÇÃ·¹ÀÌ¾î ±¸Á¶Ã¼
+//int money[];
+// 
+// í”Œë ˆì´ì–´ êµ¬ì¡°ì²´
 typedef struct {
     int level;
     int health;
@@ -23,34 +25,34 @@ typedef struct {
     int experience;
 } Player;
 
-// ¸ó½ºÅÍ Á¤º¸ ÃÊ±âÈ­ ÇÔ¼ö
+// ëª¬ìŠ¤í„° ì •ë³´ ì´ˆê¸°í™” í•¨ìˆ˜
 Monster* init_monsters() {
     Monster* monsters = (Monster*)malloc(MAX_MONSTERS * sizeof(Monster));
     if (monsters == NULL) {
-        fprintf(stderr, "¸Ş¸ğ¸® ÇÒ´ç ½ÇÆĞ\n");
+        fprintf(stderr, "ë©”ëª¨ë¦¬ í• ë‹¹ ì‹¤íŒ¨\n");
         exit(1);
     }
 
-    // ¸ó½ºÅÍ Á¤º¸ ÃÊ±âÈ­
-    monsters[0].name = "¿Ãµåº¹¼­ Æ¼¶ó³ë¿¡°Ô Ã³ÂüÇÏ°Ô ÆĞ¹èÇØ¹ö¸° Àº°¡´©";
+    // ëª¬ìŠ¤í„° ì •ë³´ ì´ˆê¸°í™”
+    monsters[0].name = "ì˜¬ë“œë³µì„œ í‹°ë¼ë…¸ì—ê²Œ ì²˜ì°¸í•˜ê²Œ íŒ¨ë°°í•´ë²„ë¦° ì€ê°€ëˆ„";
     monsters[0].max_health = 10;
     monsters[0].health = monsters[0].max_health;
     monsters[0].attack = 3;
     monsters[0].experience = 5;
 
-    monsters[1].name = "¿Ãµåº¹¼­ Æ¼¶ó³ë ¿¬½À»ı 46¼¼ Áö¹æ°£ °íÇ÷¾Ğ ´ç´¢º´À» ¾Î°íÀÖ´Â ±è¿ÁÀÚ";
+    monsters[1].name = "ì˜¬ë“œë³µì„œ í‹°ë¼ë…¸ ì—°ìŠµìƒ 46ì„¸ ì§€ë°©ê°„ ê³ í˜ˆì•• ë‹¹ë‡¨ë³‘ì„ ì•“ê³ ìˆëŠ” ê¹€ì˜¥ì";
     monsters[1].max_health = 15;
     monsters[1].health = monsters[1].max_health;
     monsters[1].attack = 5;
     monsters[1].experience = 10;
 
-    monsters[2].name = "´õºí¹è·²¼¦°ÇÀ»µÎ°³µç´õºí´õºí¹è·²¼¦°Ç¸Ç";
+    monsters[2].name = "ë”ë¸”ë°°ëŸ´ìƒ·ê±´ì„ë‘ê°œë“ ë”ë¸”ë”ë¸”ë°°ëŸ´ìƒ·ê±´ë§¨";
     monsters[2].max_health = 50;
     monsters[2].health = monsters[2].max_health;
     monsters[2].attack = 8;
     monsters[2].experience = 20;
 
-    monsters[3].name = " ¡¸µî¿¡¹ÙÁÖÄ«Æ÷¸¦´Ş°í¼Õ¿¡´Âº¹½Ì±Û·¯ºê¸¦³¤86¼¼¿Ãµåº¹¼­Æ¼¶ó³ë¡¹";
+    monsters[3].name = " ã€Œë“±ì—ë°”ì£¼ì¹´í¬ë¥¼ë‹¬ê³ ì†ì—ëŠ”ë³µì‹±ê¸€ëŸ¬ë¸Œë¥¼ë‚€86ì„¸ì˜¬ë“œë³µì„œí‹°ë¼ë…¸ã€";
     monsters[3].max_health = 40;
     monsters[3].health = monsters[3].max_health;
     monsters[3].attack = 14;
@@ -59,15 +61,15 @@ Monster* init_monsters() {
     return monsters;
 }
 
-// ÇÃ·¹ÀÌ¾î Á¤º¸ ÃÊ±âÈ­ ÇÔ¼ö
+// í”Œë ˆì´ì–´ ì •ë³´ ì´ˆê¸°í™” í•¨ìˆ˜
 Player* init_player() {
     Player* player = (Player*)malloc(sizeof(Player));
     if (player == NULL) {
-        fprintf(stderr, "¸Ş¸ğ¸® ÇÒ´ç ½ÇÆĞ\n");
+        fprintf(stderr, "ë©”ëª¨ë¦¬ í• ë‹¹ ì‹¤íŒ¨\n");
         exit(1);
     }
 
-    // ÇÃ·¹ÀÌ¾î Á¤º¸ ÃÊ±âÈ­
+    // í”Œë ˆì´ì–´ ì •ë³´ ì´ˆê¸°í™”
     player->level = 1;
     player->max_health = 20;
     player->health = player->max_health;
@@ -77,118 +79,119 @@ Player* init_player() {
     return player;
 }
 
-// ¸Ş¸ğ¸® ÇØÁ¦ ÇÔ¼ö
+// ë©”ëª¨ë¦¬ í•´ì œ í•¨ìˆ˜
 void free_memory(Player* player, Monster* monsters) {
     free(player);
     free(monsters);
 }
 
-// ÀüÅõ ÇÔ¼ö
+// ì „íˆ¬ í•¨ìˆ˜
 void battle(Player* player, Monster* monster) {
-    printf("    %s¸¦ ¸¸³µ½À´Ï´Ù!\n", monster->name);
+    printf("    %së¥¼ ë§Œë‚¬ìŠµë‹ˆë‹¤!\n", monster->name);
 
     while (1) {
-        printf("\n  ´ç½ÅÀÇ Ã¼·Â: %d / %d\n", player->health, player->max_health);
-        printf("    %sÀÇ Ã¼·Â: %d / %d\n", monster->name, monster->health, monster->max_health);
+        printf("\n  ë‹¹ì‹ ì˜ ì²´ë ¥: %d / %d\n", player->health, player->max_health);
+        printf("    %sì˜ ì²´ë ¥: %d / %d\n", monster->name, monster->health, monster->max_health);
 
-        printf("    1. °ø°İÇÏ±â     2. È¸º¹ÇÏ±â     3. µµ¸Á°¡±â\n");
+        printf("    1. ê³µê²©í•˜ê¸°     2. íšŒë³µí•˜ê¸°     3. ë„ë§ê°€ê¸°\n");
 
         int choice;
         scanf_s("%d", &choice);
 
         if (choice == 1) {
-            // ÇÃ·¹ÀÌ¾î °ø°İ
-            int damage = rand() % 4 + 2; // 2~5 »çÀÌÀÇ ·£´ıÇÑ ÇÇÇØ
-            int critical = rand() % 10; // 10% È®·ü·Î Å©¸®Æ¼ÄÃ
+            // í”Œë ˆì´ì–´ ê³µê²©
+            int damage = rand() % 4 + 2; // 2~5 ì‚¬ì´ì˜ ëœë¤í•œ í”¼í•´
+            int critical = rand() % 10; // 10% í™•ë¥ ë¡œ í¬ë¦¬í‹°ì»¬
             if (critical == 0) {
-                damage += 6; // Å©¸®Æ¼ÄÃ ¹ß»ı ½Ã +6ÀÇ ÇÇÇØ
-                printf("    Å©¸®Æ¼ÄÃ!!!!! ");
+                damage += 6; // í¬ë¦¬í‹°ì»¬ ë°œìƒ ì‹œ +6ì˜ í”¼í•´
+                printf("    í¬ë¦¬í‹°ì»¬!!!!! ");
             }
-            printf("    ´ç½ÅÀÌ ¸ó½ºÅÍ¿¡°Ô %dÀÇ ÇÇÇØ¸¦ ÀÔÇû½À´Ï´Ù.\n", damage);
+            printf("    ë‹¹ì‹ ì´ ëª¬ìŠ¤í„°ì—ê²Œ %dì˜ í”¼í•´ë¥¼ ì…í˜”ìŠµë‹ˆë‹¤.\n", damage);
             monster->health -= damage;
 
-            // ¸ó½ºÅÍ°¡ ¾ÆÁ÷ »ì¾ÆÀÖ´ÂÁö È®ÀÎ
+            // ëª¬ìŠ¤í„°ê°€ ì•„ì§ ì‚´ì•„ìˆëŠ”ì§€ í™•ì¸
             if (monster->health <= 0) {
-                printf("    ÀûÀ» ¾²·¯Æ®·È½À´Ï´Ù!\n");
+                printf("    ì ì„ ì“°ëŸ¬íŠ¸ë ¸ìŠµë‹ˆë‹¤!\n");
                 player->experience += monster->experience;
-                printf("    ÇöÀç ·¹º§: %d, ´ÙÀ½ ·¹º§±îÁö ÇÊ¿äÇÑ °æÇèÄ¡: %d\n", player->level, (player->level * 10 - player->experience));
+                printf("    í˜„ì¬ ë ˆë²¨: %d, ë‹¤ìŒ ë ˆë²¨ê¹Œì§€ í•„ìš”í•œ ê²½í—˜ì¹˜: %d\n", player->level, (player->level * 10 - player->experience));
                 break;
             }
 
-            // ¸ó½ºÅÍ °ø°İ
-            damage = 5; // ¸ó½ºÅÍ °ø°İ·ÂÀº °íÁ¤ÀÌ¶ó°í °¡Á¤
-            printf("    %s°¡ ´ç½Å¿¡°Ô %dÀÇ ÇÇÇØ¸¦ ÀÔÇû½À´Ï´Ù.\n", monster->name, damage);
+            // ëª¬ìŠ¤í„° ê³µê²©
+            damage = 5; // ëª¬ìŠ¤í„° ê³µê²©ë ¥ì€ ê³ ì •ì´ë¼ê³  ê°€ì •
+            printf("    %sê°€ ë‹¹ì‹ ì—ê²Œ %dì˜ í”¼í•´ë¥¼ ì…í˜”ìŠµë‹ˆë‹¤.\n", monster->name, damage);
             player->health -= damage;
 
-            // ÇÃ·¹ÀÌ¾î°¡ ¾ÆÁ÷ »ì¾ÆÀÖ´ÂÁö È®ÀÎ
+            // í”Œë ˆì´ì–´ê°€ ì•„ì§ ì‚´ì•„ìˆëŠ”ì§€ í™•ì¸
             if (player->health <= 0) {
                 printf("\n\n\n");
-                printf("      ######  #######  ######     ##    ##  ########  ######  \n");
-                printf("    ##    ## ##      ##    ##   ## ##   ##  ##       ##    ## \n");
-                printf("    ##       ##      ##        ##   ##  ##  ##       ##       \n");
-                printf("    ##       #####   ##       ##     ## ##  ######    ######  \n");
-                printf("    ##       ##      ##       ######### ##  ##       ##    ## \n");
-                printf("     ######  #######  ######  ##     ## ##  ########  ######  \n");
+                printf("----------------------------------------------------------------");
+                printf("|      ######  #######  ######     ##    ##  ########  ######  |\n");
+                printf("|    ##    ## ##      ##    ##   ## ##   ##  ##       ##    ## |\n");
+                printf("|    ##       ##      ##        ##   ##  ##  ##       ##       |\n");
+                printf("|    ##       #####   ##       ##     ## ##  ######    ######  |\n");
+                printf("|    ##       ##      ##       ######### ##  ##       ##    ## |\n");
+                printf("|     ######  #######  ######  ##     ## ##  ########  ######  |\n");
                 printf("\n\n\n");
-                printf("                    °ÔÀÓ ¿À¹ö\n");
-                printf("                    ÀßÁ»ÇÏÁö¤»¤»\n");
+                printf("                    ê²Œì„ ì˜¤ë²„\n");
+                printf("                    ì˜ì¢€í•˜ì§€ã…‹ã…‹\n");
                 printf("\n\n\n");
-               
+
                 break;
             }
         }
         else if (choice == 2) {
-            // È¸º¹ÇÏ±â
-            player->health += 5; // È¸º¹·®Àº °íÁ¤
-            printf("    ´ç½ÅÀÇ Ã¼·ÂÀÌ È¸º¹µÇ¾ú½À´Ï´Ù. ÇöÀç Ã¼·Â: %d / %d\n", player->health, player->max_health);
+            // íšŒë³µí•˜ê¸°
+            player->health += 5; // íšŒë³µëŸ‰ì€ ê³ ì •
+            printf("    ë‹¹ì‹ ì˜ ì²´ë ¥ì´ íšŒë³µë˜ì—ˆìŠµë‹ˆë‹¤. í˜„ì¬ ì²´ë ¥: %d / %d\n", player->health, player->max_health);
         }
         else if (choice == 3) {
-            // µµ¸Á°¡±â
-            int flee = rand() % 10; // 70% È®·ü·Î ºş½º·±
+            // ë„ë§ê°€ê¸°
+            int flee = rand() % 10; // 70% í™•ë¥ ë¡œ ë¹¤ìŠ¤ëŸ°
             if (flee < 7) {
-                printf("    ´ç½ÅÀº Á¹·ÄÇÏ°Ô ÀüÅõ¿¡¼­ µµ¸ÁÃÆ½À´Ï´Ù.\n");
+                printf("    ë‹¹ì‹ ì€ ì¡¸ë ¬í•˜ê²Œ ì „íˆ¬ì—ì„œ ë„ë§ì³¤ìŠµë‹ˆë‹¤.\n");
                 break;
             }
             else {
-                printf("       µµ¸Á¿¡ ½ÇÆĞÇß½À´Ï´Ù! µµ¸Á¿¡ ½ÇÆĞÇÏ¸é ¸Â´Â°Ô ¼¼»óÀÇ ÀÌÄ¡ÀÌÀÚ µµ¸®ÀÔ´Ï´Ù.\n");
-                int damage = 5; // ¸ó½ºÅÍ °ø°İ·ÂÀº °íÁ¤
+                printf("       ë„ë§ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤! ë„ë§ì— ì‹¤íŒ¨í•˜ë©´ ë§ëŠ”ê²Œ ì„¸ìƒì˜ ì´ì¹˜ì´ì ë„ë¦¬ì…ë‹ˆë‹¤.\n");
+                int damage = 5; // ëª¬ìŠ¤í„° ê³µê²©ë ¥ì€ ê³ ì •
                 player->health -= damage;
 
-                // ÇÃ·¹ÀÌ¾î°¡ ¾ÆÁ÷ »ì¾ÆÀÖ´ÂÁö È®ÀÎ
+                // í”Œë ˆì´ì–´ê°€ ì•„ì§ ì‚´ì•„ìˆëŠ”ì§€ í™•ì¸
                 if (player->health <= 0) {
-                    printf("    ´ç½ÅÀº ÀüÅõ¿¡¼­ ÆĞ¹èÇß½À´Ï´Ù.\n");
+                    printf("    ë‹¹ì‹ ì€ ì „íˆ¬ì—ì„œ íŒ¨ë°°í–ˆìŠµë‹ˆë‹¤.\n");
                     break;
                 }
             }
         }
         else {
-            printf("    Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù. ´Ù½Ã ¼±ÅÃÇØÁÖ¼¼¿ä.\n");
+            printf("    ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤. ë‹¤ì‹œ ì„ íƒí•´ì£¼ì„¸ìš”.\n");
         }
     }
 }
 
-// ÇÃ·¹ÀÌ¾î ·¹º§¾÷ ÇÔ¼ö
+// í”Œë ˆì´ì–´ ë ˆë²¨ì—… í•¨ìˆ˜
 void level_up(Player* player) {
     player->level++;
-    player->max_health += 2; // ·¹º§¾÷ ½Ã ÃÖ´ë Ã¼·Â 2 Áõ°¡
-    player->health = player->max_health; // ÇöÀç Ã¼·ÂÀ» ÃÖ´ë Ã¼·ÂÀ¸·Î ¼³Á¤
-    printf("·¹º§ ¾÷! ÃÖ´ë Ã¼·ÂÀÌ Áõ°¡Çß½À´Ï´Ù. ÇöÀç ·¹º§: %d, ÃÖ´ë Ã¼·Â: %d\n", player->level, player->max_health);
+    player->max_health += 2; // ë ˆë²¨ì—… ì‹œ ìµœëŒ€ ì²´ë ¥ 2 ì¦ê°€
+    player->health = player->max_health; // í˜„ì¬ ì²´ë ¥ì„ ìµœëŒ€ ì²´ë ¥ìœ¼ë¡œ ì„¤ì •
+    printf("ë ˆë²¨ ì—…! ìµœëŒ€ ì²´ë ¥ì´ ì¦ê°€í–ˆìŠµë‹ˆë‹¤. í˜„ì¬ ë ˆë²¨: %d, ìµœëŒ€ ì²´ë ¥: %d\n", player->level, player->max_health);
 }
 
 int main() {
     srand(time(NULL));
-
-    printf("        #   #         #####      #         #           ######          \n");
-    printf("        #   #         #          #         #          #      #   \n");
-    printf("        #   #         #          #         #          #      #    \n");
-    printf("        #####         #####      #         #          #      #     \n");
-    printf("        #   #         #          #         #          #      #     \n");
-    printf("        #   #         #          #         #          #      #      \n");
-    printf("        #   #         #####      #######   ########    ######                    \n");
-    printf("             Welcome to RPG World!                    \n");
-
+    printf("---------------------------------------------------------------- \n");
+    printf("|        #   #         #####      #         #           ######  |        \n");
+    printf("|        #   #         #          #         #          #      # |  \n");
+    printf("|        #   #         #          #         #          #      # |   \n");
+    printf("|        #####         #####      #         #          #      # |    \n");
+    printf("|        #   #         #          #         #          #      # |    \n");
+    printf("|        #   #         #          #         #          #      # |     \n");
+    printf("|        #   #         #####      #######   ########    ######  |                  \n");
+    printf("|             Welcome to RPG World!                             |\n");    
+    printf("---------------------------------------------------------------- \n");
     while (1) {
-        printf("    1. °ÔÀÓ ½ÃÀÛ\n    2. Á¾·á\n");
+        printf("                 1. ê²Œì„ ì‹œì‘\n                 2. ì¢…ë£Œ\n");
         int choice;
         scanf_s("%d", &choice);
         fflush(stdin);
@@ -200,7 +203,7 @@ int main() {
             int walk_count = 0;
 
             while (player->level <= MAX_PLAYER_LEVEL) {
-                printf("\n  ÇÃ·¹ÀÌ¾î ·¹º§: %d, °æÇèÄ¡: %d\n", player->level, player->experience);
+                printf("\n  í”Œë ˆì´ì–´ ë ˆë²¨: %d, ê²½í—˜ì¹˜: %d\n", player->level, player->experience);
 
                 Monster monster;
                 if (player->level >= 7 && walk_count >= 7 && rand() % 10 < 3) {
@@ -211,54 +214,54 @@ int main() {
                 }
                 battle(player, &monster);
 
-                if (player->experience >= player->level * 10) { // ÇÃ·¹ÀÌ¾î°¡ °æÇèÄ¡¸¦ ÃæºĞÈ÷ È¹µæÇÏ¿© ·¹º§¾÷ Á¶°Ç ÃæÁ· ½Ã
-                    level_up(player); // ·¹º§¾÷
-                    printf("    ´ÙÀ½ ·¹º§±îÁö ÇÊ¿äÇÑ °æÇèÄ¡: %d\n", (player->level * 10 - player->experience));
+                if (player->experience >= player->level * 10) { // í”Œë ˆì´ì–´ê°€ ê²½í—˜ì¹˜ë¥¼ ì¶©ë¶„íˆ íšë“í•˜ì—¬ ë ˆë²¨ì—… ì¡°ê±´ ì¶©ì¡± ì‹œ
+                    level_up(player); // ë ˆë²¨ì—…
+                    printf("    ë‹¤ìŒ ë ˆë²¨ê¹Œì§€ í•„ìš”í•œ ê²½í—˜ì¹˜: %d\n", (player->level * 10 - player->experience));
                 }
 
                 if (player->health <= 0) {
-                    printf("    °ÔÀÓ ¿À¹ö\n");
+                    printf("    ê²Œì„ ì˜¤ë²„\n");
                     break;
                 }
 
                 if (player->level > MAX_PLAYER_LEVEL) {
-                    printf("    °¨È÷ ¿Ãµåº¹¼­Æ¼¶ó³ë¸¶Àú ´ç½Å¿¡°Ô ´ëµéÁö ¸øÇÒ Á¤µµ·Î °­ÇØÁ³½À´Ï´Ù..\n");
+                    printf("    ê°íˆ ì˜¬ë“œë³µì„œí‹°ë¼ë…¸ë§ˆì € ë‹¹ì‹ ì—ê²Œ ëŒ€ë“¤ì§€ ëª»í•  ì •ë„ë¡œ ê°•í•´ì¡ŒìŠµë‹ˆë‹¤..\n");
                     break;
                 }
 
                 walk_count++;
 
-                printf("1. °è¼Ó °È±â\n2. ÈŞ½ÄÇÏ±â\n");
+                printf("1. ê³„ì† ê±·ê¸°\n2. íœ´ì‹í•˜ê¸°\n");
                 scanf_s("%d", &choice);
                 fflush(stdin);
 
                 switch (choice) {
                 case 1:
-                    printf("    ´ç½ÅÀº ¶Ñ¹÷¶Ñ¹÷ °È°íÀÖ½À´Ï´Ù...\n");
-                    printf("    ¸¶Ä¡¶Ñ¹÷ÃÊ");
+                    printf("    ë‹¹ì‹ ì€ ëšœë²…ëšœë²… ê±·ê³ ìˆìŠµë‹ˆë‹¤...\n");
+                    printf("    ë§ˆì¹˜ëšœë²…ì´ˆ");
                     break;
                 case 2:
-                    printf("    ´ç½ÅÀº ÈŞ½ÄÀ» ÃëÇÕ´Ï´Ù.\n");
+                    printf("    ë‹¹ì‹ ì€ íœ´ì‹ì„ ì·¨í•©ë‹ˆë‹¤.\n");
                     player->health += 10;
                     if (player->health > player->max_health) {
                         player->health = player->max_health;
                     }
-                    printf("    Ã¼·ÂÀÌ È¸º¹µÇ¾ú½À´Ï´Ù ! ÇöÀç Ã¼·Â: %d / %d\n", player->health, player->max_health);
+                    printf("    ì²´ë ¥ì´ íšŒë³µë˜ì—ˆìŠµë‹ˆë‹¤ ! í˜„ì¬ ì²´ë ¥: %d / %d\n", player->health, player->max_health);
                     break;
                 default:
-                    printf("    Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.\n");
+                    printf("    ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤.\n");
                     break;
                 }
             }
 
-            free_memory(player, monsters); // ¸Ş¸ğ¸® ÇØÁ¦
+            free_memory(player, monsters); // ë©”ëª¨ë¦¬ í•´ì œ
         }
         else if (choice == 2) {
-            printf("°ÔÀÓÀ» Á¾·áÇÕ´Ï´Ù.\n");
+            printf("ê²Œì„ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.\n");
             break;
         }
         else {
-            printf("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù. ´Ù½Ã ¼±ÅÃÇØÁÖ¼¼¿ä.\n");
+            printf("ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤. ë‹¤ì‹œ ì„ íƒí•´ì£¼ì„¸ìš”.\n");
         }
     }
 
