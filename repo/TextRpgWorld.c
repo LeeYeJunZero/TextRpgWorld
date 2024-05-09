@@ -21,6 +21,7 @@ typedef struct {
     int max_health;
     int attack;
     int experience;
+    int skillpoint;
 } Player;
 
 // 몬스터 정보 초기화 함수
@@ -73,7 +74,7 @@ Player* init_player() {
     player->health = player->max_health;
     player->attack = 5;
     player->experience = 0;
-
+    player->skillpoint = 0;
     return player;
 }
 
@@ -98,7 +99,7 @@ void battle(Player* player, Monster* monster) {
 
         if (choice == 1) {
             // 플레이어 공격
-            int damage = rand() % 4 + 2; // 2~5 사이의 랜덤한 피해
+            int damage = player->attack + rand() % 3 - 1;// 2~5 사이의 랜덤한 피해
             int critical = rand() % 10; // 10% 확률로 크리티컬
             if (critical == 0) {
                 damage += 6; // 크리티컬 발생 시 +6의 피해
@@ -116,7 +117,7 @@ void battle(Player* player, Monster* monster) {
             }
 
             // 몬스터 공격
-            damage = 5; // 몬스터 공격력은 고정이라고 가정
+            damage = monster->attack + rand() % 5 - 2; // 몬스터 공격력에 랜덤한 변동 적용
             printf("    %s가 당신에게 %d의 피해를 입혔습니다.\n", monster->name, damage);
             player->health -= damage;
 
@@ -140,7 +141,7 @@ void battle(Player* player, Monster* monster) {
         }
         else if (choice == 2) {
             // 회복하기
-            int heal_amount = 5;  // 회복량은 고정
+            int heal_amount = rand() % 3 + 2;  // 
             if (player->health + heal_amount > player->max_health) {
                 heal_amount = player->max_health - player->health;  // 최대 체력을 초과하지 않도록
             }
@@ -176,8 +177,10 @@ void battle(Player* player, Monster* monster) {
 void level_up(Player* player) {
     player->level++;
     player->max_health += 2; // 레벨업 시 최대 체력 2 증가
-    player->health = player->max_health; // 현재 체력을 최대 체력으로 설정
-    printf("레벨 업! 최대 체력이 증가했습니다. 현재 레벨: %d, 최대 체력: %d\n", player->level, player->max_health);
+    player->attack += 1; // 레벨업 시 공격력 1 증가 
+    //player->skillpoint += 1;
+    // player->health = player->max_health; // 불필요한 코드 제거
+    printf("레벨 업! 최대 체력이 증가했습니다. 현재 레벨: %d, 최대 체력: %d, 공격력: %d\n", player->level, player->max_health, player->attack);
 }
 
 int main() {
@@ -218,7 +221,9 @@ int main() {
 
                 if (player->experience >= player->level * 10) { // 플레이어가 경험치를 충분히 획득하여 레벨업 조건 충족 시
                     level_up(player); // 레벨업
+                   
                     printf("    다음 레벨까지 필요한 경험치: %d\n", (player->level * 10 - player->experience));
+                  
                 }
 
                 if (player->health <= 0) {
