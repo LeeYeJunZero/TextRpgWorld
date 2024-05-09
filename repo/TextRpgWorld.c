@@ -14,8 +14,6 @@ typedef struct {
     int experience;
 } Monster;
 
-//int money[];
-// 
 // 플레이어 구조체
 typedef struct {
     int level;
@@ -188,7 +186,7 @@ int main() {
     printf("|        #   #         #          #         #          #      # |    \n");
     printf("|        #   #         #          #         #          #      # |     \n");
     printf("|        #   #         #####      #######   ########    ######  |                  \n");
-    printf("|             Welcome to RPG World!                             |\n");    
+    printf("|             Welcome to RPG World!                             |\n");
     printf("---------------------------------------------------------------- \n");
     while (1) {
         printf("                 1. 게임 시작\n                 2. 종료\n");
@@ -230,6 +228,10 @@ int main() {
                 }
 
                 walk_count++;
+                if (walk_count % 3 == 0) {
+                    printf("마을을 발견했다! 쉬었다 가시겠습니까?\n");
+                    // 마을에 관련된 기능 구현
+                }
 
                 printf("1. 계속 걷기\n2. 휴식하기\n");
                 scanf_s("%d", &choice);
