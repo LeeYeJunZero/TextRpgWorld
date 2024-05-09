@@ -140,7 +140,11 @@ void battle(Player* player, Monster* monster) {
         }
         else if (choice == 2) {
             // 회복하기
-            player->health += 5; // 회복량은 고정
+            int heal_amount = 5;  // 회복량은 고정
+            if (player->health + heal_amount > player->max_health) {
+                heal_amount = player->max_health - player->health;  // 최대 체력을 초과하지 않도록
+            }
+            player->health += heal_amount;
             printf("    당신의 체력이 회복되었습니다. 현재 체력: %d / %d\n", player->health, player->max_health);
         }
         else if (choice == 3) {
@@ -152,7 +156,7 @@ void battle(Player* player, Monster* monster) {
             }
             else {
                 printf("       도망에 실패했습니다! 도망에 실패하면 맞는게 세상의 이치이자 도리입니다.\n");
-                int damage = 5; // 몬스터 공격력은 고정
+                int damage = 5; // 도망 실패시의 몬스터 공격력은 고정
                 player->health -= damage;
 
                 // 플레이어가 아직 살아있는지 확인
