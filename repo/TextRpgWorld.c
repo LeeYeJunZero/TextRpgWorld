@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#define MAX_MONSTERS 6
+#define MAX_MONSTERS 8
 #define MAX_PLAYER_LEVEL 30
 
 // 몬스터 구조체
@@ -22,6 +22,20 @@ typedef struct {
     int experience;
     int skillpoint;
 } Player;
+
+typedef struct {
+    int human;
+    int weapon_up_grade;
+    int sleeping_room;
+} village;
+
+typedef struct {
+    int sword;
+    int big_sword;
+    int double_double_shotgun;
+    int big_big_sword;
+    int broken_weapon;
+} weapon;
 
 // 몬스터 정보 초기화 함수
 Monster* init_monsters() {
@@ -52,16 +66,14 @@ Monster* init_monsters() {
     monsters[2].experience = 6;
 
 
-
-
-    monsters[3].name = "척추측만증으로 35도 이상 꺾여 5급 면제 판정 받은 22세 이도훈";
+    monsters[3].name = "척추측만증으로 허리가 35도 이상 꺾여 5급 면제 판정 받은 22세 이도훈";
     monsters[3].max_health = 7;
     monsters[3].health = monsters[3].max_health;
     monsters[3].attack = 1;
     monsters[3].experience = 3;
 
     monsters[4].name = "더블배럴샷건을두개든더블더블배럴샷건맨";
-    monsters[4].max_health = 50;
+    monsters[4].max_health = 25;
     monsters[4].health = monsters[4].max_health;
     monsters[4].attack = 8;
     monsters[4].experience = 20;
@@ -72,9 +84,19 @@ Monster* init_monsters() {
     monsters[5].attack = 14;
     monsters[5].experience = 31;
 
+    monsters[6].name = " 관물대에 리얼라이언 일병 장수풍뎅이 키우는 개폐급 일병 강준성";
+    monsters[6].max_health = 40;
+    monsters[6].health = monsters[6].max_health;
+    monsters[6].attack = 14;
+    monsters[6].experience = 1;
+
+    monsters[7].name = "1급에서 4급으로 추락한 후 장애인복지시설에서 근무하는 공익 닭둘기";
+    monsters[7].max_health = 9;
+    monsters[7].health = monsters[7];
+    monsters[7].attack = 9;
+    monsters[7].experience = 9;
 
 
-  
     return monsters;
 }
 
@@ -165,8 +187,8 @@ void battle(Player* player, Monster* monster) {
             }
             player->health += heal_amount;
             printf("    당신의 체력이 회복되었습니다. 현재 체력: %d / %d\n", player->health, player->max_health);
-       
- }
+
+        }
         else if (choice == 3) {
             // 도망가기
             int flee = rand() % 70; // 70% 확률로 빤스런
@@ -233,7 +255,7 @@ int main() {
                 printf("\n  플레이어 레벨: %d, 경험치: %d\n", player->level, player->experience);
 
                 Monster monster;
-                
+
                 if (player->level >= 7 && walk_count >= 7) {
                     monsters[rand() % 6]; // 플레이어의 레벨이 7 이상이고 걸음이 7 이상일 때 올드복서 티라노 출현
                 }
