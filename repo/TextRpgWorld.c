@@ -125,9 +125,10 @@ Player* init_player() {
 }
 
 // 메모리 해제 함수
-void free_memory(Player* player, Monster* monsters) {
+void free_memory(Player* player, Monster* monsters, weapon* weapons) {
 	free(player);
 	free(monsters);
+	free(weapons);
 }
 
 // 전투 함수
