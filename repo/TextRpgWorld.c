@@ -125,10 +125,10 @@ Player* init_player() {
 }
 
 // 메모리 해제 함수
-void free_memory(Player* player, Monster* monsters, weapon* weapons) {
+void free_memory(Player* player, Monster* monsters) {
 	free(player);
 	free(monsters);
-	free(weapons);
+	
 }
 
 // 전투 함수
@@ -255,7 +255,7 @@ int main() {
 		if (choice == 1) {
 			Player* player = init_player();
 			Monster* monsters = init_monsters();
-			//weapon* weapons = init_weapons();
+			
 			int walk_count = 0;
 
 			while (player->level <= MAX_PLAYER_LEVEL) {
@@ -321,7 +321,7 @@ int main() {
 				}
 			}
 
-			free_memory(player, monsters /*weapons*/); // 메모리 해제
+			free_memory(player, monsters); // 메모리 해제
 		}
 		else if (choice == 2) {
 			printf("게임을 종료합니다.\n");
