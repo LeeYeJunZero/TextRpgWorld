@@ -3,7 +3,7 @@
 #include <time.h>
 #define MAX_MONSTERS 8
 #define MAX_PLAYER_LEVEL 30
-
+#define MAX_WEAPON 10
 // 몬스터 구조체
 typedef struct {
 	char* name;
@@ -33,8 +33,15 @@ typedef struct {
 //무기 구조체
 typedef struct {
 	int damage;
+	int name;
 } weapon;
-
+//무기 정보 초기화 함수
+weapon* init_weapons(){
+	weapon* weapons = (Monster*)malloc(MAX_WEAPON * sizeof(weapon));
+	if (weapons == NULL)
+		fprintf(stderr, "메모리 할당 못해따");
+		exit(1);
+}
 // 몬스터 정보 초기화 함수
 Monster* init_monsters() {
 	Monster* monsters = (Monster*)malloc(MAX_MONSTERS * sizeof(Monster));
@@ -91,7 +98,7 @@ Monster* init_monsters() {
 	monsters[7].name = "1급에서 4급으로 추락한 후 장애인복지시설에서 근무하는 공익 닭둘기";
 	monsters[7].max_health = 9;
 	monsters[7].health = monsters[7].max_health;
-;
+	;
 	monsters[7].attack = 9;
 	monsters[7].experience = 9;
 
