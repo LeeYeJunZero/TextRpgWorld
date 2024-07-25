@@ -31,17 +31,17 @@ typedef struct {
 
 
 //무기 구조체
-typedef struct {
+/*typedef struct {
 	int damage;
 	int name;
-} weapon;
+} weapon;*/
 //무기 정보 초기화 함수
-weapon* init_weapons(){
+/*weapon* init_weapons(){
 	weapon* weapons = (Monster*)malloc(MAX_WEAPON * sizeof(weapon));
 	if (weapons == NULL)
 		fprintf(stderr, "메모리 할당 못해따");
 		exit(1);
-}
+}*/
 // 몬스터 정보 초기화 함수
 Monster* init_monsters() {
 	Monster* monsters = (Monster*)malloc(MAX_MONSTERS * sizeof(Monster));
