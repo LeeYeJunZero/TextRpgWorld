@@ -31,17 +31,42 @@ typedef struct {
 
 
 //무기 구조체
-/*typedef struct {
+typedef struct {
 	int damage;
 	int name;
-} weapon;*/
+} weapon;
 //무기 정보 초기화 함수
-/*weapon* init_weapons(){
+weapon* init_weapons(){
 	weapon* weapons = (Monster*)malloc(MAX_WEAPON * sizeof(weapon));
-	if (weapons == NULL)
+	if (weapons == NULL){
 		fprintf(stderr, "메모리 할당 못해따");
 		exit(1);
-}*/
+		weapons[0].name = "아영차";
+		weapons[0].damage = 3;
+
+		weapons[1].name = "좋앗숴";
+		weapons[1].damage = 2;
+		
+		weapons[2].name = "7126번 정익호";
+		weapons[2].damage = "1";
+
+		weapons[3].name = "대가리박어.";
+		weapons[3].damage = "5";
+		
+		weapons[4].name = "이도훈의 구부러진 척추";
+		weapons[4].damage = "8";
+		
+		weapons[5].name = "리얼라이언 이병의 뿔";
+		weapons[5].damage = "7";
+
+		weapons[6].name = "닭둘기의 닭다리 뼈";
+		weapons[6].name = "6";
+
+		weapons[7].name = "이승우의 올 9등급 수능 성적표";
+		weapons[7].name = "99";
+	}
+}
+
 // 몬스터 정보 초기화 함수
 Monster* init_monsters() {
 	Monster* monsters = (Monster*)malloc(MAX_MONSTERS * sizeof(Monster));
@@ -220,12 +245,10 @@ void battle(Player* player, Monster* monster) {
 		}
 	}
 }
-
 // 플레이어 레벨업 함수
 void level_up(Player* player) {
 	player->level++;
-	player->max_health += 2; // 레벨업 시 최대 체력 2 증가
-	player->attack += 1; // 레벨업 시 공격력 1 증가 
+	player->max_health += 2; // 레벨업 시 최대 체력 2 증가 
 	player->experience = 0; // 레벨업 후 경험치 초기화
 
 	printf("레벨 업! 최대 체력이 증가했습니다. 현재 레벨: %d, 최대 체력: %d, 공격력: %d\n", player->level, player->max_health, player->attack);
@@ -296,6 +319,17 @@ int main() {
 				walk_count++;
 				if (walk_count % 3 == 0) {
 					printf("마을을 발견했다! 쉬었다 가시겠습니까?\n");
+					printfln("1.쉬다가기 2.무시하기");
+					if (choice == 1){
+						printfln("마을에서 무기를 강화하시겠습니까?");
+						if (choice == 1){
+							printf("무기가 강화되었습니다.");
+							//weapon.damage++
+						}
+
+						
+					}
+					break;
 					// 마을에 관련된 기능 구현 예정
 				}
 
