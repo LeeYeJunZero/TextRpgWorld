@@ -11,6 +11,7 @@ typedef struct {
 	int health;
 	int attack;
 	int experience;
+	int item; // 전리품으로 뒈짖시 아이템 드랍
 } Monster;
 
 // 플레이어 구조체
@@ -32,8 +33,9 @@ typedef struct {
 
 //무기 구조체
 typedef struct {
-	int damage;
-	int name;
+	int damage; //무기 데미지
+	int name; // 무기 이름
+	int attack_count; // 일정 횟수 공격하면 장비가 파괴되도록 하기 위해 공격한 횟수를 카운트함
 } weapon;
 //무기 정보 초기화 함수
 weapon* init_weapons(){
@@ -64,6 +66,7 @@ weapon* init_weapons(){
 
 		weapons[7].name = "이승우의 올 9등급 수능 성적표";
 		weapons[7].name = "99";
+		weapons[7].attack_count = 0;
 	}
 }
 
