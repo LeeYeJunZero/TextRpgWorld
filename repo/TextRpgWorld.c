@@ -27,7 +27,7 @@ typedef struct {
 
 //마을 구조체
 typedef struct {
-	int vilage;
+	int village;
 } village;
 
 
@@ -50,22 +50,22 @@ weapon* init_weapons(){
 		weapons[1].damage = 2;
 		
 		weapons[2].name = "7126번 정익호";
-		weapons[2].damage = "1";
+		weapons[2].damage = 1;
 
 		weapons[3].name = "대가리박어.";
-		weapons[3].damage = "5";
+		weapons[3].damage = 5;
 		
 		weapons[4].name = "이도훈의 구부러진 척추";
-		weapons[4].damage = "8";
+		weapons[4].damage = 8;
 		
 		weapons[5].name = "리얼라이언 이병의 뿔";
-		weapons[5].damage = "7";
+		weapons[5].damage = 7;
 
 		weapons[6].name = "닭둘기의 닭다리 뼈";
-		weapons[6].name = "6";
+		weapons[6].name = 6;
 
 		weapons[7].name = "이승우의 올 9등급 수능 성적표";
-		weapons[7].name = "99";
+		weapons[7].name = 99;
 		weapons[7].attack_count = 0;
 	}
 }
@@ -126,9 +126,9 @@ Monster* init_monsters() {
 	monsters[7].name = "1급에서 4급으로 추락한 후 장애인복지시설에서 근무하는 공익 닭둘기";
 	monsters[7].max_health = 9;
 	monsters[7].health = monsters[7].max_health;
-	;
-	monsters[7].attack = 9;
-	monsters[7].experience = 9;
+	
+	//monsters[8].attack = 9;
+	//monsters[8].experience = 9;
 
 
 	return monsters;
@@ -271,13 +271,12 @@ int main() {
 	printf("|        #   #         #####      #######   ########    ######  |                  \n");
 	printf("|             \033[0;34mWelcome to RPG World!                            \033[0m|\n"); // 파란색으로 변경
 	printf("---------------------------------------------------------------- \n");
-	printf("\033[0m");
+	printf("\033[0m")
 	printf("---------------------------------------------------------------- \n");
 	while (1) {
 		printf("                 1. 게임 시작\n                 2. 종료\n");
 		int choice;
 		scanf_s("%d", &choice);
-
 		if (choice == 1) {
 			Player* player = init_player();
 			Monster* monsters = init_monsters();
@@ -307,7 +306,7 @@ int main() {
 					level_up(player); // 레벨업
 
 					printf("    다음 레벨까지 필요한 경험치: %d\n", (player->level * 10 - player->experience));
-				}
+				}ㅅㄹ ㅊ
 
 				if (player->health <= 0) {
 					printf("    게임 오버\n");
@@ -322,11 +321,11 @@ int main() {
 				walk_count++;
 				if (walk_count % 3 == 0) {
 					printf("마을을 발견했다! 쉬었다 가시겠습니까?\n");
-					printfln("1.쉬다가기 2.무시하기");
+					printf("1.쉬다가기 2.무시하기");
 					if (choice == 1){
-						printfln("마을에서 무기를 강화하시겠습니까?");
+						printf("마을에서 무기를 강화하시겠습니까?");
 						if (choice == 1){
-							printf("무기가 강화되었습니다.");
+							printf("무기가 강화되었습니다.");//확률 넣을 예정
 							//weapon.damage++
 						}
 
