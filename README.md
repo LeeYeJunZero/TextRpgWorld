@@ -21,3 +21,49 @@ free만 해놓으려해도 인자값이 부족하기에 주석처리 해놓음<b
 2024-07-25 : 척추측만증이도훈이 공격시 음수로 나오는 문제 확인 현재 수정 중
 <br>
 2024-08-12 : 숫자가 들어가는 자리(damage)에 문자열로 기입한 미쳐버린 오도찐빠 코드 수정
+
+<br>
+2025년 1년 만에 본 코드의 개쩌는 문제점들
+
+weapon 구조체 정의 오류
+
+typedef struct {
+    int damage; 
+    int name; 
+    int attack_count;
+} weapon;
+//
+
+→ name은 문자열(char*)이어야 한 int로 선언되어 문자열을 넣으면서 충돌 발생.
+nit_weapons 함수 메모리 할당 버그
+
+weapon* weapons = (Monster*)malloc(MAX_WEAPON * sizeof(weapon));
+
+
+→ (Monster*)로 잘못 캐스팅했음. (weapon*)로 해야 한다.
+
+
+//
+
+init_weapons 함수 내부 구조
+
+if (weapons == NULL) {
+    fprintf(stderr, "메모리 할당 못해따");
+    exit(1);
+    weapons[0].name = "아영차";
+    ...
+}
+
+
+→ exit(1) 호출 후 아래 코드가 실행될 수 없음. 무기 초기화가 전혀 이뤄지지 않음.
+→ if 바깥에서 무기 정보 초기화해야 함.
+//
+
+몬스터 선택 로직
+
+monsters[rand() % 6]; 
+
+
+→ 반환값을 monster 변수에 저장하지 않음 → 아무 의미 없음.
+
+문법 오류
